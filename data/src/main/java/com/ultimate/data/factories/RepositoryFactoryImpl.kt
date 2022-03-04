@@ -2,11 +2,13 @@ package com.ultimate.data.factories
 
 import com.ultimate.data.FetchHeroRepositoryImpl
 import com.ultimate.data.FetchHeroesRepositoryImpl
+import com.ultimate.data.SquadRepositoryImpl
 import com.ultimate.data.api.MarvelApi
 import com.ultimate.data.api.MarvelApiImpl
 import com.ultimate.domain.factories.RepositoryFactory
 import com.ultimate.domain.repositories.FetchHeroRepository
 import com.ultimate.domain.repositories.FetchHeroesRepository
+import com.ultimate.domain.repositories.SquadRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
@@ -21,11 +23,15 @@ class RepositoryFactoryImpl(
 
     private val marvelApi = createMarvelApi(privateKey, publicKey)
 
+    private val squadRepository = SquadRepositoryImpl()
+
     override fun provideFetchHeroesRepository(): FetchHeroesRepository =
         FetchHeroesRepositoryImpl(marvelApi)
 
     override fun provideFetchHeroRepository(): FetchHeroRepository =
         FetchHeroRepositoryImpl(marvelApi)
+
+    override fun provideSquadRepository(): SquadRepository = squadRepository
 }
 
 private fun createRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()

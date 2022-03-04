@@ -11,7 +11,12 @@ import com.ultimate.presentation.features.home.HomeViewModel
 
 class PresentationFactory : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    private val repositoryFactory: RepositoryFactory = RepositoryFactoryImpl(
+        privateKey = BuildConfig.PRIVATE_KEY,
+        publicKey = BuildConfig.PUBLIC_KEY
+    )
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val result: Any = when (modelClass) {
             HomeViewModel::class.java -> createHomeViewModel()
             DetailViewModel::class.java -> createDetailViewModel()
@@ -21,17 +26,16 @@ class PresentationFactory : ViewModelProvider.Factory {
     }
 
     private fun createHomeViewModel() = HomeViewModel(
-        fetchHeroesUseCase = createUseCaseFactory().provideFetchHeroesUseCase()
+        fetchHeroesUseCase = createUseCaseFactory().provideFetchHeroesUseCase(),
+        fetchSquadUseCase = createUseCaseFactory().provideFetchSquadUseCase()
     )
 
     private fun createDetailViewModel() = DetailViewModel(
-        fetchHeroUseCase = createUseCaseFactory().provideFetchHeroUseCase()
+        fetchHeroUseCase = createUseCaseFactory().provideFetchHeroUseCase(),
+        addHeroToSquadUseCase = createUseCaseFactory().provideAddHeroToSquadUseCase(),
+        removeHeroToSquadUseCase = createUseCaseFactory().provideRemoveHeroToSquadUseCase(),
+        checkHeroIsRecruitedUseCase = createUseCaseFactory().provideCheckHeroIsRecruitedUseCase()
     )
 
-    private fun createUseCaseFactory() = UseCaseFactory(createRepositoryFactory())
-
-    private fun createRepositoryFactory(): RepositoryFactory = RepositoryFactoryImpl(
-        privateKey = BuildConfig.PRIVATE_KEY,
-        publicKey = BuildConfig.PUBLIC_KEY
-    )
+    private fun createUseCaseFactory() = UseCaseFactory(repositoryFactory)
 }

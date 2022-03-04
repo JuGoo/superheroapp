@@ -2,4 +2,5 @@
     <string name="app_name">SuperHeroApp</string>
     <string name="recruit_text">💪 Recruit to Squad</string>
     <string name="fire_text">🔥 Fire from Squad</string>
+    <string name="my_squad_text">My Squad</string>
 </resources>

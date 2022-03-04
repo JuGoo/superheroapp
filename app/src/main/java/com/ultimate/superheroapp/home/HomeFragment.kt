@@ -30,7 +30,8 @@ class HomeFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        setupHeroesRecyclerView()
+        setupSquadRecyclerView()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -41,10 +42,16 @@ class HomeFragment(
         viewModel.start().asLiveData().onChange(this, ::renderState)
     }
 
-    private fun setupRecyclerView() = binding?.run {
+    private fun setupHeroesRecyclerView() = binding?.run {
         heroesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         heroesRecyclerView.adapter = HeroesRecyclerAdapter(::selectHero)
         heroesRecyclerView.enableNestedScroll()
+    }
+
+    private fun setupSquadRecyclerView() = binding?.run {
+        squadRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        squadRecyclerView.adapter = SquadRecyclerAdapter(::selectHero)
+        squadRecyclerView.enableNestedScroll()
     }
 
     private fun selectHero(heroId: Int) =
@@ -58,10 +65,15 @@ class HomeFragment(
 
     private fun renderData(state: HomeState.Data) {
         setHeroesAdapter(state.heroes)
+        setSquadAdapter(state.squad)
     }
 
     private fun setHeroesAdapter(heroes: List<HeroItem>) = binding?.run {
         (heroesRecyclerView.adapter as HeroesRecyclerAdapter).updateItems(heroes)
+    }
+
+    private fun setSquadAdapter(squad: List<HeroItem>) = binding?.run {
+        (squadRecyclerView.adapter as SquadRecyclerAdapter).updateItems(squad)
     }
 
 }

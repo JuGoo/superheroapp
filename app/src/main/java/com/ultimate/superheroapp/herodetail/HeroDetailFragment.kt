@@ -66,10 +66,10 @@ class HeroDetailFragment(
     private fun bindButton(item: HeroItem) = binding?.run {
         if (item.isRecruited) {
             button.text = requireContext().getText(R.string.fire_text)
-            button.setOnClickListener { viewModel.fire() }
+            button.setOnClickListener { viewModel.fire(item.id) }
         } else {
             button.text = requireContext().getText(R.string.recruit_text)
-            button.setOnClickListener { viewModel.recruit() }
+            button.setOnClickListener { viewModel.recruit(item.id) }
         }
     }
 
