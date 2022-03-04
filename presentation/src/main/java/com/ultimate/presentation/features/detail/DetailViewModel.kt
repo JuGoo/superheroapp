@@ -48,8 +48,10 @@ class DetailViewModel(
     private suspend fun createHeroItem(id: Int): HeroItem {
         val hero = fetchHeroUseCase.run(id).getOrThrow()
         val isRecruited = checkHeroIsRecruitedUseCase.run(id).getOrDefault(false)
-        return HeroItem(hero.id, hero.name, hero.imageUrl, hero.description, isRecruited)
+        return HeroItem(hero.id, hero.name, generateImageUrl(hero.imageUrl), hero.description, isRecruited)
     }
-
-    private fun createData(heroItem: HeroItem) = DetailState.Data(heroItem)
 }
+
+private fun createData(heroItem: HeroItem) = DetailState.Data(heroItem)
+
+private fun generateImageUrl(imageUrl: String): String = "$imageUrl/portrait_fantastic.jpg"

@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import com.bumptech.glide.Glide
 import com.ultimate.presentation.features.detail.DetailState
 import com.ultimate.presentation.features.detail.DetailViewModel
 import com.ultimate.presentation.models.HeroItem
 import com.ultimate.superheroapp.R
 import com.ultimate.superheroapp.databinding.FragmentDetailBinding
 import com.ultimate.superheroapp.main.MainActivity
-import com.ultimate.superheroapp.utils.imageloader.GlideImageLoader
 import com.ultimate.superheroapp.utils.onChange
 
 class HeroDetailFragment(
@@ -48,7 +48,7 @@ class HeroDetailFragment(
         viewModel.state.asLiveData().onChange(this, ::renderState)
     }
 
-    private fun setupBackButton() = binding?.run{
+    private fun setupBackButton() = binding?.run {
         backButton.setOnClickListener { (requireActivity() as MainActivity).pop() }
     }
 
@@ -62,10 +62,17 @@ class HeroDetailFragment(
 
     private fun renderData(state: DetailState.Data) = binding?.run {
         val item = state.hero
-        GlideImageLoader().process(item.imageUrl, image)
         title.text = item.name
         description.text = item.description
+        bindImage(item.imageUrl)
         bindButton(item)
+    }
+
+    private fun bindImage(imageUrl: String) = binding?.run {
+        Glide.with(image.context)
+            .load(imageUrl)
+            .centerCrop()
+            .into(image)
     }
 
     private fun bindButton(item: HeroItem) = binding?.run {

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ultimate.presentation.models.HeroItem
 import com.ultimate.superheroapp.R
 import com.ultimate.superheroapp.databinding.HeroItemBinding
-import com.ultimate.superheroapp.utils.imageloader.GlideImageLoader
 
 class HeroesRecyclerAdapter(
     private val select: (Int) -> Unit
@@ -22,8 +21,7 @@ class HeroesRecyclerAdapter(
         HeroViewHolder(
             HeroItemBinding.bind(
                 LayoutInflater.from(parent.context).inflate(R.layout.hero_item, parent, false)
-            ),
-            GlideImageLoader()
+            )
         )
 
     override fun getItemId(position: Int): Long = items[position].hashCode().toLong()
@@ -34,11 +32,6 @@ class HeroesRecyclerAdapter(
         val item = items[position]
         viewHolder.bind(item)
         viewHolder.itemView.setOnClickListener { select(item.id) }
-    }
-
-    override fun onViewRecycled(viewHolder: HeroViewHolder) {
-        super.onViewRecycled(viewHolder)
-        viewHolder.unBind()
     }
 
     fun updateItems(heroes: List<HeroItem>) {

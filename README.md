@@ -28,6 +28,5 @@ This project is built using Clean Architecture and is structured in the followin
 
 ## TODO
 
-- Loading image
 - Unit tests
 - Code Review

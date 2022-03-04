@@ -40,7 +40,9 @@ private fun List<Hero>.mapToItems(): List<HeroItem> = map { it.mapItem() }
 private fun Hero.mapItem(): HeroItem = HeroItem(
     id = id,
     name = name,
-    imageUrl = imageUrl,
+    imageUrl = generateImageUrl(imageUrl),
     description = description,
     isRecruited = false
 )
+
+private fun generateImageUrl(imageUrl: String): String = "$imageUrl/standard_medium.jpg"
