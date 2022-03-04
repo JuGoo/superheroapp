@@ -2,6 +2,7 @@ package com.ultimate.superheroapp.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -27,8 +28,13 @@ class MainActivity : AppCompatActivity() {
         pushHomeFragment()
     }
 
-    fun pushDetailFragment(id: Int) =
-        supportFragmentManager.pushFragment(HeroDetailFragment::class, "detail:$id", null)
+    fun pushDetailFragment(id: Int) = supportFragmentManager.pushFragment(
+        HeroDetailFragment::class, "detail:$id", bundleOf(
+            HeroDetailFragment.HERO_ID to id
+        )
+    )
+
+    fun pop() = supportFragmentManager.popBackStack()
 
     private fun pushHomeFragment() =
         supportFragmentManager.pushFragment(HomeFragment::class, "home", null)

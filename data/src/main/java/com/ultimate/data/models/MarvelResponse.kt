@@ -4,7 +4,7 @@ import com.ultimate.domain.models.Hero
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CharactersResponse(val data: DataResponse)
+internal data class MarvelResponse(val data: DataResponse)
 
 @Serializable
 internal data class DataResponse(val results: List<CharacterResponse>)
@@ -20,6 +20,11 @@ internal data class CharacterResponse(
 @Serializable
 internal data class ThumbnailResponse(val path: String)
 
-internal fun CharactersResponse.mapToHeroes(): List<Hero> = data.results.map { it.mapHero() }
+internal fun MarvelResponse.mapToHeroes(): List<Hero> = data.results.map { it.mapHero() }
 
-private fun CharacterResponse.mapHero(): Hero = Hero(id, name, thumbnail.path)
+private fun CharacterResponse.mapHero(): Hero = Hero(
+    id = id,
+    name = name,
+    imageUrl = thumbnail.path,
+    description = description
+)

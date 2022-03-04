@@ -24,7 +24,9 @@ class PresentationFactory : ViewModelProvider.Factory {
         fetchHeroesUseCase = createUseCaseFactory().provideFetchHeroesUseCase()
     )
 
-    private fun createDetailViewModel() = DetailViewModel()
+    private fun createDetailViewModel() = DetailViewModel(
+        fetchHeroUseCase = createUseCaseFactory().provideFetchHeroUseCase()
+    )
 
     private fun createUseCaseFactory() = UseCaseFactory(createRepositoryFactory())
 

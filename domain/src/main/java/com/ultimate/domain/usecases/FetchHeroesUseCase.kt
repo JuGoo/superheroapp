@@ -7,8 +7,7 @@ class FetchHeroesUseCase(
     private val fetchHeroesRepository: FetchHeroesRepository
 ) {
     suspend fun run(): Result<List<Hero>> = runCatching {
-        val result = fetchHeroes()
-        result
+        fetchHeroes()
     }
 
     private suspend fun fetchHeroes() = fetchHeroesRepository.fetch()

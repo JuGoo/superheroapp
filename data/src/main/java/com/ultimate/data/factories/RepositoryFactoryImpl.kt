@@ -1,9 +1,11 @@
 package com.ultimate.data.factories
 
+import com.ultimate.data.FetchHeroRepositoryImpl
 import com.ultimate.data.FetchHeroesRepositoryImpl
 import com.ultimate.data.api.MarvelApi
 import com.ultimate.data.api.MarvelApiImpl
 import com.ultimate.domain.factories.RepositoryFactory
+import com.ultimate.domain.repositories.FetchHeroRepository
 import com.ultimate.domain.repositories.FetchHeroesRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,6 +23,9 @@ class RepositoryFactoryImpl(
 
     override fun provideFetchHeroesRepository(): FetchHeroesRepository =
         FetchHeroesRepositoryImpl(marvelApi)
+
+    override fun provideFetchHeroRepository(): FetchHeroRepository =
+        FetchHeroRepositoryImpl(marvelApi)
 }
 
 private fun createRetrofit(baseUrl: String): Retrofit = Retrofit.Builder()

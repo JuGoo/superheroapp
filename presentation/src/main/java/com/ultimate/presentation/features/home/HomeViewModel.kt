@@ -34,5 +34,7 @@ private fun List<Hero>.mapToItems(): List<HeroItem> = map { it.mapItem() }
 private fun Hero.mapItem(): HeroItem = HeroItem(
     id = id,
     name = name,
-    imageUrl = imageUrl
+    imageUrl = imageUrl,
+    description = description,
+    isRecruited = false
 )
