@@ -22,4 +22,4 @@ internal data class ThumbnailResponse(val path: String)
 
 internal fun CharactersResponse.mapToHeroes(): List<Hero> = data.results.map { it.mapHero() }
 
-private fun CharacterResponse.mapHero(): Hero = Hero(name, thumbnail.path)
+private fun CharacterResponse.mapHero(): Hero = Hero(id, name, thumbnail.path)

@@ -4,18 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black_russian"
     tools:context=".main.MainActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainActivityToolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
@@ -24,6 +14,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainActivityToolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
