@@ -7,6 +7,6 @@ class RemoveHeroToSquadUseCase(
 ) {
 
     suspend fun run(id: Int): Result<Unit> = runCatching {
-        squadRepository.add(id)
+        squadRepository.remove(id)
     }
 }

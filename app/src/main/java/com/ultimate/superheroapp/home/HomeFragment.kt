@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -73,6 +75,7 @@ class HomeFragment(
     }
 
     private fun setSquadAdapter(squad: List<HeroItem>) = binding?.run {
+        mySquadTitle.isGone = squad.isEmpty()
         (squadRecyclerView.adapter as SquadRecyclerAdapter).updateItems(squad)
     }
 

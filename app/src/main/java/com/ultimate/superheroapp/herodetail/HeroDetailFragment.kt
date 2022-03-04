@@ -28,10 +28,7 @@ class HeroDetailFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBackButton()
-    }
-
-    private fun setupBackButton() = binding?.run{
-        backButton.setOnClickListener { (requireActivity() as MainActivity).pop() }
+        observeViewModel()
     }
 
     override fun onCreateView(
@@ -44,7 +41,15 @@ class HeroDetailFragment(
 
     override fun onResume() {
         super.onResume()
-        viewModel.start(getIdArguments()).asLiveData().onChange(this, ::renderState)
+        viewModel.start(getIdArguments())
+    }
+
+    private fun observeViewModel() {
+        viewModel.state.asLiveData().onChange(this, ::renderState)
+    }
+
+    private fun setupBackButton() = binding?.run{
+        backButton.setOnClickListener { (requireActivity() as MainActivity).pop() }
     }
 
     private fun getIdArguments(): Int = requireArguments().getInt(HERO_ID)

@@ -27,8 +27,11 @@
             android:id="@+id/mySquadTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/my_squad_text"
-            android:textSize="14sp" />
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/squadRecyclerView"

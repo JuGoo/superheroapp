@@ -8,10 +8,7 @@ import com.ultimate.domain.usecases.CheckHeroIsRecruitedUseCase
 import com.ultimate.domain.usecases.FetchHeroUseCase
 import com.ultimate.domain.usecases.RemoveHeroToSquadUseCase
 import com.ultimate.presentation.models.HeroItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEmpty
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 sealed class DetailState {
@@ -27,22 +24,32 @@ class DetailViewModel(
     private val checkHeroIsRecruitedUseCase: CheckHeroIsRecruitedUseCase
 ) : ViewModel() {
 
-    fun start(id: Int): Flow<DetailState> = flow {
-        val hero = fetchHeroUseCase.run(id).getOrThrow()
-        val isRecruited = checkHeroIsRecruitedUseCase.run(id).getOrDefault(false)
-        emit(createData(hero, isRecruited))
+    var state: MutableStateFlow<DetailState> = MutableStateFlow(DetailState.Loading)
+
+    fun start(id: Int) = viewModelScope.launch {
+        emitData(id)
     }
-        .onStart { DetailState.Loading }
-        .onEmpty { DetailState.Error }
 
     fun fire(id: Int) = viewModelScope.launch {
         removeHeroToSquadUseCase.run(id)
+        emitData(id)
     }
 
     fun recruit(id: Int) = viewModelScope.launch {
         addHeroToSquadUseCase.run(id)
+        emitData(id)
     }
 
-    private fun createData(hero: Hero, isRecruited: Boolean) =
-        DetailState.Data(HeroItem(hero.id, hero.name, hero.imageUrl, hero.description, isRecruited))
+    private suspend fun emitData(id: Int) {
+        val heroItem = createHeroItem(id)
+        state.value = createData(heroItem)
+    }
+
+    private suspend fun createHeroItem(id: Int): HeroItem {
+        val hero = fetchHeroUseCase.run(id).getOrThrow()
+        val isRecruited = checkHeroIsRecruitedUseCase.run(id).getOrDefault(false)
+        return HeroItem(hero.id, hero.name, hero.imageUrl, hero.description, isRecruited)
+    }
+
+    private fun createData(heroItem: HeroItem) = DetailState.Data(heroItem)
 }
